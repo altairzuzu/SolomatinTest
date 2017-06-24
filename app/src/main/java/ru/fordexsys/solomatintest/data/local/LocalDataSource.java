@@ -73,4 +73,13 @@ public class LocalDataSource {
         });
     }
 
+    public void clearPhotos() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+//        realm.deleteAll();
+        realm.delete(Photo.class);
+        realm.commitTransaction();
+        realm.close();
+    }
+
 }

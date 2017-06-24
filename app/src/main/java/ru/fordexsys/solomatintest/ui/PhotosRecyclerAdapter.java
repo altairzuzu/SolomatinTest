@@ -71,29 +71,6 @@ public class PhotosRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         final String url = photo.getPhotoSmall();
 
-//        Glide.with(holder.recyclerImage.getContext())
-//                .load(url)
-////                .asBitmap()
-//                .centerCrop()
-////                .fitCenter()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .placeholder(R.drawable.placeholder)
-//                .error(R.drawable.placeholder)
-//                .into(holder.recyclerImage);
-
-//                .into(new GlideDrawableImageViewTarget(holder.recyclerImage) {
-//                    @Override
-//                    protected void setResource(GlideDrawable resource) {
-//                    }
-//
-//                    @Override
-//                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-//                        view.setImageDrawable(resource);
-//                        super.onResourceReady(resource, glideAnimation);
-//
-//                    }
-//                });
-
         Picasso.with(holder.recyclerImage.getContext())
                 .load(url)
                 .resize(300,300)

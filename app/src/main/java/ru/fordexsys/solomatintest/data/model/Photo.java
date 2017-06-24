@@ -15,27 +15,6 @@ import io.realm.annotations.RealmClass;
 @RealmClass
 public class Photo implements RealmModel, Parcelable {
 
-//              "id": 430425125,
-//            "album_id": -7,
-//            "owner_id": 1,
-//            "photo_75": "https://pp.userap...490/r_Te_ODfXHo.jpg",
-//            "photo_130": "https://pp.userap...491/2x-nxFeFElU.jpg",
-//            "photo_604": "https://pp.userap...492/Rf1ZluR1Svg.jpg",
-//            "photo_807": "https://pp.userap...493/OMbaZVhe9BA.jpg",
-//            "photo_1280": "https://pp.userap...494/EiOADmRQ7sk.jpg",
-//            "photo_2560": "https://pp.userap...495/btx0IfkZejU.jpg",
-//            "width": 1600,
-//            "height": 679,
-//            "text": "4. При просмотре фотографий утрачен фокус на самой картинке. Фотографии смещены влево, а яркое пятно белой колонки комментариев, появившейся справа, перетягивает на себя фокус внимания. Это решение было скопировано c Facebook, который в свое время ввел правую колонку для размещения дополнительных рекламных блоков.",
-//            "date": 1471444581,
-//            "likes": {
-//              "user_likes": 0,
-//                "count": 16779
-//              },
-//            "reposts": {
-//                 "count": 37
-//    }
-
     @PrimaryKey
     private long id;
 

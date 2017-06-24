@@ -1,5 +1,7 @@
 package ru.fordexsys.solomatintest.ui.detail;
 
+import java.util.List;
+
 import ru.fordexsys.solomatintest.data.model.Photo;
 import ru.fordexsys.solomatintest.ui.base.MvpView;
 
@@ -9,6 +11,8 @@ import ru.fordexsys.solomatintest.ui.base.MvpView;
 
 public interface DetailMvpView extends MvpView {
 
-    void onGetPhotoSuccess(Photo photo);
-    void onGetPhotoError();
+    void onGetPhotosSuccess(List<Photo> photoList);
+    void onGetPhotosError();
+    void onGetMorePhotosSuccess(List<Photo> photoList);
+    void onGetMorePhotosError();
 }

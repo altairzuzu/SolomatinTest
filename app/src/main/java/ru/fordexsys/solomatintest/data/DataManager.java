@@ -115,6 +115,7 @@ public class DataManager {
                     .doOnNext(new Action1<List<Photo>>() {
                         @Override
                         public void call(List<Photo> photoList) {
+                            localDataSource.clearPhotos();
                             localDataSource.savePhotos(photoList);
                         }
                     })
@@ -157,6 +158,10 @@ public class DataManager {
         } else {
             return localDataSource.getPhotos();
         }
+    }
+
+    public void clearPhotos() {
+        localDataSource.clearPhotos();
     }
 
 

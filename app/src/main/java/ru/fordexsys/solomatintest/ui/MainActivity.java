@@ -57,11 +57,9 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
     @Inject
     MainPresenter presenter;
 
-    private String currentFrag;
-    private int page;
     private PhotosRecyclerAdapter photosRecyclerAdapter;
     private EndlessRecyclerViewScrollListener onScrollListener;
-    private ArrayList<Photo> ridesList = new ArrayList<>();
+    private ArrayList<Photo> photosList = new ArrayList<>();
 
 
     @Override
@@ -74,7 +72,6 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
         this.activityComponent().inject(this);
         presenter.attachView(this);
 
-        init();
         initRecycler();
 
         Intent intent = getIntent();
@@ -82,23 +79,20 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
             Snackbar.make(mainCoordinator, getString(R.string.enter_done), Snackbar.LENGTH_SHORT).show();
         }
 
-        presenter.getPhotos(true, 0, 40);
+        //todo
+        presenter.getPhotos(true, 0, 20);
 
+        //todo
         pageSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getPhotos(true, 0, 40);
+                presenter.getPhotos(true, 0, 20);
             }
         });
 
         pageSwipe.setColorSchemeResources(R.color.colorAccent,
                 R.color.colorPrimary);
         pageProgress.setVisibility(View.VISIBLE);
-
-    }
-
-    private void init() {
-
 
     }
 
@@ -110,19 +104,16 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
                 if (photo != null) {
                     Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                     intent.putExtra("id", photo.getId());
+                    intent.putExtra("photos", photosList);
                     startActivityForResult(intent, DetailActivity.REQUEST_DETAIL);
                 }
             }
         };
 
-        photosRecyclerAdapter = new PhotosRecyclerAdapter(ridesList, listener);
+        photosRecyclerAdapter = new PhotosRecyclerAdapter(photosList, listener);
 
         recyclerView.setHasFixedSize(true);
-        WrapContentLinearLayoutManager wrapContentLinearLayoutManager = new WrapContentLinearLayoutManager(this,3);
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
-
-//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-//        layoutManager.scrollToPosition(0);
+        WrapContentLinearLayoutManager wrapContentLinearLayoutManager = new WrapContentLinearLayoutManager(this,2);
 
         recyclerView.setLayoutManager(wrapContentLinearLayoutManager);
         recyclerView.setAdapter(photosRecyclerAdapter);
@@ -131,32 +122,11 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 loadProgress.setVisibility(View.VISIBLE);
-                presenter.getPhotos(true, page * 40, 40);
+                //todo
+                presenter.getPhotos(true, page * 20, 20);
             }
         };
         recyclerView.addOnScrollListener(onScrollListener);
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
 
     }
 
@@ -197,11 +167,11 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
             emptyPhotos.setVisibility(View.GONE);
         }
 
-        ridesList.clear();
+        photosList.clear();
         photosRecyclerAdapter.notifyDataSetChanged();
         onScrollListener.resetState();
 
-        ridesList.addAll(photoList);
+        photosList.addAll(photoList);
         photosRecyclerAdapter.notifyItemRangeInserted(0, photoList.size());
 
         pageSwipe.setRefreshing(false);
@@ -220,9 +190,8 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
     @Override
     public void onGetMorePhotosSuccess(final List<Photo> photoList) {
 
-
         final int curSize = photosRecyclerAdapter.getItemCount();
-        ridesList.addAll(photoList);
+        photosList.addAll(photoList);
 
         recyclerView.post(new Runnable() {
             @Override
@@ -232,7 +201,6 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
             }
         });
 
-
     }
 
     @Override
@@ -240,6 +208,5 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
         loadProgress.setVisibility(View.GONE);
         Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
     }
-
 
 }
