@@ -43,8 +43,15 @@ public class LocalDataSource {
         INSTANCE = null;
     }
 
-    public void savePhotos(List<Photo> photoList) {
-
+    public void savePhotos(final List<Photo> photoList) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(photoList);
+            }
+        });
+        realm.close();
     }
 
     public Observable<List<Photo>> getPhotos() {
@@ -52,8 +59,7 @@ public class LocalDataSource {
             @Override
             public List<Photo> call() throws Exception {
                 Realm realm = Realm.getDefaultInstance();
-                RealmResults<Photo> realmResults = realm.where(Photo.class)
-                        .findAll();
+                RealmResults<Photo> realmResults = realm.where(Photo.class).findAll();
 //                int size = realmResults.size();
 //                List<Ride> rideList;
 //                if (size > 20) {

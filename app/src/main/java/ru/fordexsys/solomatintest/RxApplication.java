@@ -20,8 +20,6 @@ import io.realm.RealmConfiguration;
  */
 public class RxApplication extends Application {
 
-    private float density;
-
     @Inject
     DataManager dataManager;
     ApplicationComponent applicationComponent;
@@ -43,8 +41,6 @@ public class RxApplication extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .build();
         applicationComponent.inject(this);
-
-        density = getResources().getDisplayMetrics().density;
 
     }
 

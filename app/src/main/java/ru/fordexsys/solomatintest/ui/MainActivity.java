@@ -11,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import butterknife.ButterKnife;
 import ru.fordexsys.solomatintest.ui.detail.DetailActivity;
 import ru.fordexsys.solomatintest.util.EndlessRecyclerViewScrollListener;
 import ru.fordexsys.solomatintest.util.NetworkUtil;
+import ru.fordexsys.solomatintest.util.WrapContentLinearLayoutManager;
 
 /**
  * Created by Altair on 29-Oct-16.
@@ -49,6 +51,8 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
     View emptyPhotos;
     @BindView(R.id.page_progress)
     View pageProgress;
+    @BindView(R.id.load_progress)
+    RelativeLayout loadProgress;
 
     @Inject
     MainPresenter presenter;
@@ -78,6 +82,19 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
             Snackbar.make(mainCoordinator, getString(R.string.enter_done), Snackbar.LENGTH_SHORT).show();
         }
 
+        presenter.getPhotos(true, 0, 40);
+
+        pageSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getPhotos(true, 0, 40);
+            }
+        });
+
+        pageSwipe.setColorSchemeResources(R.color.colorAccent,
+                R.color.colorPrimary);
+        pageProgress.setVisibility(View.VISIBLE);
+
     }
 
     private void init() {
@@ -98,26 +115,23 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
             }
         };
 
-        photosRecyclerAdapter = new PhotosRecyclerAdapter(ridesList, this, listener);
+        photosRecyclerAdapter = new PhotosRecyclerAdapter(ridesList, listener);
 
         recyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        WrapContentLinearLayoutManager wrapContentLinearLayoutManager = new WrapContentLinearLayoutManager(this,3);
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
 
 //        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 //        layoutManager.scrollToPosition(0);
-//        DividerItemDecoration decoration = new DividerItemDecoration(recyclerView.getContext(),
-//                linearLayoutManager.getOrientation());
 
-        recyclerView.setLayoutManager(gridLayoutManager);
-//        recyclerView.addItemDecoration(decoration);
+        recyclerView.setLayoutManager(wrapContentLinearLayoutManager);
         recyclerView.setAdapter(photosRecyclerAdapter);
 
-        onScrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
+        onScrollListener = new EndlessRecyclerViewScrollListener(wrapContentLinearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-//                    ridesRecyclerAdapter.setProgressVisibility(true);
-//                    ridesRecyclerAdapter.notifyItemChanged(ridesList.size());
-                presenter.getPhotos(true, page * 30, 30);
+                loadProgress.setVisibility(View.VISIBLE);
+                presenter.getPhotos(true, page * 40, 40);
             }
         };
         recyclerView.addOnScrollListener(onScrollListener);
@@ -176,15 +190,6 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
     @Override
     public void onGetPhotosSuccess(List<Photo> photoList) {
         pageProgress.setVisibility(View.GONE);
-        List<Photo> newRides = new ArrayList<>();
-//        if (currentUser != null) {
-        for (int i = 0; i < photoList.size(); i++) {
-            Photo photo = photoList.get(i);
-            newRides.add(photo);
-        }
-//        } else {
-//            newRides = photoList;
-//        }
 
         if (photoList.size() == 0) {
             emptyPhotos.setVisibility(View.VISIBLE);
@@ -195,63 +200,46 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
         ridesList.clear();
         photosRecyclerAdapter.notifyDataSetChanged();
         onScrollListener.resetState();
-        ridesList.addAll(newRides);
-        photosRecyclerAdapter.notifyItemRangeInserted(0, ridesList.size());
+
+        ridesList.addAll(photoList);
+        photosRecyclerAdapter.notifyItemRangeInserted(0, photoList.size());
+
         pageSwipe.setRefreshing(false);
+
+        loadProgress.setVisibility(View.GONE);
     }
 
 
     @Override
-    public void onGetPhotosError(String error) {
-//        if (showError) {
-            String err = NetworkUtil.parseErrorString(this, error);
-            Toast.makeText(this, err, Toast.LENGTH_SHORT).show();
-//        }
+    public void onGetPhotosError() {
+        loadProgress.setVisibility(View.GONE);
+        Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         pageSwipe.setRefreshing(false);
     }
 
     @Override
     public void onGetMorePhotosSuccess(final List<Photo> photoList) {
-//        ridesList.remove(ridesList.size() - 1);
-//        ridesRecyclerAdapter.setProgressVisibility(false);
-//        ridesRecyclerAdapter.notifyItemChanged(ridesList.size());
-//        final int curSize = ridesRecyclerAdapter.getItemCount() - 1;
+
 
         final int curSize = photosRecyclerAdapter.getItemCount();
         ridesList.addAll(photoList);
-
-//        // TODO variable
-//        if (raids.size() < 20) {
-//            ridesRecyclerAdapter.setProgressVisibility(false);
-//            ridesRecyclerAdapter.notifyItemChanged(curSize + 1);
-//        }
 
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
                 photosRecyclerAdapter.notifyItemRangeInserted(curSize, photoList.size());
+                loadProgress.setVisibility(View.GONE);
             }
         });
+
+
     }
 
     @Override
-    public void onGetMorePhotosError(String error) {
-        String err = NetworkUtil.parseErrorString(this, error);
-        Toast.makeText(this, err, Toast.LENGTH_SHORT).show();
+    public void onGetMorePhotosError() {
+        loadProgress.setVisibility(View.GONE);
+        Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (mapFragment != null) {
-//            if (requestCode == REQUEST_CHECK_SETTINGS) {
-//                mapFragment.onActivityResult(requestCode, resultCode, data);
-//
-//                //todo проверить
-//            } else if (requestCode == REQUEST_DETAIL) {
-//                mapFragment.onActivityResult(requestCode, resultCode, data);
-//            }
-//        }
-//    }
 
 }

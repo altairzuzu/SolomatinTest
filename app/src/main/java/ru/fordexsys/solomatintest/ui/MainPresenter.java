@@ -55,7 +55,7 @@ public class MainPresenter implements Presenter<MainMvpView> {
                     .onErrorReturn(new Func1<Throwable, List<Photo>>() {
                         @Override
                         public List<Photo> call(Throwable e) {
-                            view.onGetPhotosError(NetworkUtil.parseError(e));
+                            view.onGetPhotosError();
                             return null;
                         }
                     })
@@ -64,7 +64,7 @@ public class MainPresenter implements Presenter<MainMvpView> {
 
         } else {
 
-            subscription = dataManager.getPhotos(remote, offset, count)
+            subscription = dataManager.getMorePhotos(remote, offset, count)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .doOnNext(new Action1<List<Photo>>() {
@@ -76,7 +76,7 @@ public class MainPresenter implements Presenter<MainMvpView> {
                     .onErrorReturn(new Func1<Throwable, List<Photo>>() {
                         @Override
                         public List<Photo> call(Throwable e) {
-                            view.onGetMorePhotosError(NetworkUtil.parseError(e));
+                            view.onGetMorePhotosError();
                             return null;
                         }
                     })

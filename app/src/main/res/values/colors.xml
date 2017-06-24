@@ -6,19 +6,9 @@
     <color name="colorAccent">#f0851a</color>
     <color name="colorAccentDark">#e47400</color>
 
-    <color name="colorRoute">#00daf1</color>
-
-    <color name="bg_blue">#b2ebf2</color>
-    <color name="bg_light">#f9fbe7</color>
-
-    <color name="gradient_start">#32cc77</color>
-    <color name="gradient_end">#0067a6</color>
-
     <color name="transparent">#00000000</color>
-    <color name="transparent_dark">#10000000</color>
+    <color name="transparent_dark">#20000000</color>
     <color name="transparent_light">#10ffffff</color>
-
-    <color name="pink">#fc4ba6</color>
 
     <color name="gray_light">#eeeeee</color>
     <color name="gray_dark">#999999</color>
@@ -32,6 +22,7 @@
     <color name="blue_light">#c8ebfb</color>
     <color name="blue">#6090d0</color>
     <color name="purple">#ba68c8</color>
+    <color name="pink">#fc4ba6</color>
 
     <color name="vk">#45668e</color>
 

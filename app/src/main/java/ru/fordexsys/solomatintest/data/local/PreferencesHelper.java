@@ -41,5 +41,13 @@ public class PreferencesHelper {
         return pref.getString(SharedKeys.TOKEN, "");
     }
 
+    public void putUserId(String token) {
+        pref.edit().putString(SharedKeys.USERID, token).apply();
+    }
+
+    public String getUserId() {
+        return pref.getString(SharedKeys.USERID, "");
+    }
+
 
 }

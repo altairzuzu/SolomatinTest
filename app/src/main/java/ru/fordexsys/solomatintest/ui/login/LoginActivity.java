@@ -107,7 +107,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case WebFragment.TAG:
                 fragment = WebFragment.newInstance();
-                ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+//                ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 ft.addToBackStack(null);
                 break;
         }

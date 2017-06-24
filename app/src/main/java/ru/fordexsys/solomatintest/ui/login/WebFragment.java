@@ -39,9 +39,9 @@ public class WebFragment extends Fragment implements View.OnClickListener {
     public static final String TAG = "WebFragment";
 
     @BindView(R.id.btn_back)
-    Button btnBack;
+    View btnBack;
     @BindView(R.id.btn_reload)
-    Button btnReload;
+    View btnReload;
 
     @BindView(R.id.web)
     WebView webView;
@@ -128,6 +128,10 @@ public class WebFragment extends Fragment implements View.OnClickListener {
                             && !TextUtils.isEmpty(query_pairs.get("access_token"))) {
                         saveToken(query_pairs.get("access_token"));
                     }
+                    if (query_pairs.containsKey("user_id")
+                            && !TextUtils.isEmpty(query_pairs.get("user_id"))) {
+                        saveUserId(query_pairs.get("user_id"));
+                    }
 
                     ((LoginActivity) getActivity()).closeActivity();
 
@@ -152,12 +156,16 @@ public class WebFragment extends Fragment implements View.OnClickListener {
     private void saveToken(String token) {
         dataManager.getPreferencesHelper().putToken(token);
     }
+    private void saveUserId(String userId) {
+        dataManager.getPreferencesHelper().putUserId(userId);
+    }
+
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
-                ((LoginActivity) getActivity()).changeFragment(LoginFragment.TAG);
+                getActivity().onBackPressed();
                 break;
             case R.id.btn_reload:
                 String url = "https://oauth.vk.com/authorize?client_id=6087019&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=65540&response_type=token&v=5.52";

@@ -1,17 +1,25 @@
 package ru.fordexsys.solomatintest.ui;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,7 +29,6 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import ru.fordexsys.solomatintest.R;
 import ru.fordexsys.solomatintest.data.model.Photo;
 
@@ -31,52 +38,69 @@ import ru.fordexsys.solomatintest.data.model.Photo;
 
 public class PhotosRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static final int VIEW_TYPE_PHOTO = 0;
-    public static final int VIEW_TYPE_PROGRESS = 1;
-
     private List<Photo> list;
-    private Context context;
     private OnItemClickListener listener;
-
-    private boolean isProgressVisible = true;
 
     public interface OnItemClickListener {
         void OnClick(Photo ride);
     }
 
-    public PhotosRecyclerAdapter(List<Photo> list, Context context, OnItemClickListener listener) {
+    public PhotosRecyclerAdapter(List<Photo> list, OnItemClickListener listener) {
         this.list = list;
-        this.context = context;
         this.listener = listener;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_photo, parent, false);
-            return new CustomVH(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_photo, parent, false);
+        return new CustomVH(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder generalHolder, int position) {
 
-            CustomVH holder = (CustomVH) generalHolder;
-            final Photo photo = list.get(position);
-            holder.view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.OnClick(photo);
-                }
-            });
+        final CustomVH holder = (CustomVH) generalHolder;
+        final Photo photo = list.get(position);
 
-            String url = photo.getPhotoSmall();
-            Glide.with(context)
-                    .load(url)
-                    .centerCrop()
-                    .dontAnimate()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.placeholder)
-                    .into(holder.recyclerImage);
+        holder.recyclerShadow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.OnClick(photo);
+            }
+        });
+
+        final String url = photo.getPhotoSmall();
+
+//        Glide.with(holder.recyclerImage.getContext())
+//                .load(url)
+////                .asBitmap()
+//                .centerCrop()
+////                .fitCenter()
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .placeholder(R.drawable.placeholder)
+//                .error(R.drawable.placeholder)
+//                .into(holder.recyclerImage);
+
+//                .into(new GlideDrawableImageViewTarget(holder.recyclerImage) {
+//                    @Override
+//                    protected void setResource(GlideDrawable resource) {
+//                    }
+//
+//                    @Override
+//                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+//                        view.setImageDrawable(resource);
+//                        super.onResourceReady(resource, glideAnimation);
+//
+//                    }
+//                });
+
+        Picasso.with(holder.recyclerImage.getContext())
+                .load(url)
+                .resize(300,300)
+                .centerCrop()
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
+                .into(holder.recyclerImage);
 
     }
 
@@ -93,6 +117,8 @@ public class PhotosRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     final static class CustomVH extends RecyclerView.ViewHolder {
         @BindView(R.id.recycler_image)
         ImageView recyclerImage;
+        @BindView(R.id.recycler_shadow)
+        FrameLayout recyclerShadow;
         View view;
 
         private CustomVH(View itemView) {
@@ -100,28 +126,6 @@ public class PhotosRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ButterKnife.bind(this, itemView);
             this.view = itemView;
         }
-    }
-
-    final static class CustomVHProgress extends RecyclerView.ViewHolder {
-        View view;
-
-        private CustomVHProgress(View itemView) {
-            super(itemView);
-            this.view = itemView;
-        }
-
-    }
-
-//    public List<Ride> getList() {
-//        return list;
-//    }
-//
-//    public void setList(List<Ride> list) {
-//        this.list = list;
-//    }
-
-    public void setProgressVisibility(boolean isVisible) {
-        this.isProgressVisible = isVisible;
     }
 
 }

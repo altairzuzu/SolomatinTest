@@ -12,7 +12,7 @@ import ru.fordexsys.solomatintest.ui.base.MvpView;
 public interface MainMvpView extends MvpView {
 
     void onGetPhotosSuccess(List<Photo> photoList);
-    void onGetPhotosError(String error);
+    void onGetPhotosError();
     void onGetMorePhotosSuccess(List<Photo> photoList);
-    void onGetMorePhotosError(String error);
+    void onGetMorePhotosError();
 }

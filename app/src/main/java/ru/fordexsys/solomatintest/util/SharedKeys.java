@@ -7,5 +7,6 @@ package ru.fordexsys.solomatintest.util;
 public class SharedKeys {
 
     public static final String TOKEN = "TOKEN";
+    public static final String USERID = "USERID";
 
 }

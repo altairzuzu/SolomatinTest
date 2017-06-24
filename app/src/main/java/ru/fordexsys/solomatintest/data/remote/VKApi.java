@@ -27,7 +27,8 @@ public interface VKApi {
     Observable<PhotosResponse> photos(@Query("access_token") String token,
                                       @Query("extended") int extended,
                                       @Query("offset") int offset,
-                                      @Query("count") int count);
+                                      @Query("count") int count,
+                                      @Query("v") double v);
 
     /********
      * Factory class that sets up a new VK API
