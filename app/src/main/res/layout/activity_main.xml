@@ -22,7 +22,7 @@
             </android.support.v7.widget.RecyclerView>
 
             <RelativeLayout
-                android:id="@+id/page_empty_myrides"
+                android:id="@+id/page_empty"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="visible"

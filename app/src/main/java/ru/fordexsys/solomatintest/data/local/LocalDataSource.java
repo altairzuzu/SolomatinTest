@@ -2,7 +2,15 @@ package ru.fordexsys.solomatintest.data.local;
 
 import android.support.annotation.Nullable;
 
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.Callable;
+
 import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
+import ru.fordexsys.solomatintest.data.model.Photo;
+import rx.Observable;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -35,6 +43,28 @@ public class LocalDataSource {
         INSTANCE = null;
     }
 
+    public void savePhotos(List<Photo> photoList) {
 
+    }
+
+    public Observable<List<Photo>> getPhotos() {
+        return Observable.fromCallable(new Callable<List<Photo>>() {
+            @Override
+            public List<Photo> call() throws Exception {
+                Realm realm = Realm.getDefaultInstance();
+                RealmResults<Photo> realmResults = realm.where(Photo.class)
+                        .findAll();
+//                int size = realmResults.size();
+//                List<Ride> rideList;
+//                if (size > 20) {
+//                    rideList = realm.copyFromRealm(realmResults, 1).subList(0, 20);
+//                } else {
+                List<Photo> rideList = realm.copyFromRealm(realmResults);
+//                }
+                realm.close();
+                return rideList;
+            }
+        });
+    }
 
 }

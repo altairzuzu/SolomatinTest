@@ -1,11 +1,10 @@
 package ru.fordexsys.solomatintest.util;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 
-/**
- * Created by Altair on 14-Mar-17.
- */
 
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
     // The minimum amount of items to have below your current scroll position
@@ -20,10 +19,15 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
     // Sets the starting page index
     private int startingPageIndex = 0;
 
-    RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.LayoutManager mLayoutManager;
 
-    public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager) {
+//    public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager) {
+//        this.mLayoutManager = layoutManager;
+//    }
+
+    public EndlessRecyclerViewScrollListener(GridLayoutManager layoutManager) {
         this.mLayoutManager = layoutManager;
+        visibleThreshold = visibleThreshold * layoutManager.getSpanCount();
     }
 
     // This happens many times a second during a scroll, so be wary of the code you place here.
@@ -35,7 +39,7 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 //        int totalItemCount = mLayoutManager.getItemCount() - 1; // - 1 because of last progress item
         int totalItemCount = mLayoutManager.getItemCount();
 
-        lastVisibleItemPosition = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
+        lastVisibleItemPosition = ((GridLayoutManager) mLayoutManager).findLastVisibleItemPosition();
 
         // If the total item count is zero and the previous isn't, assume the
         // list is invalidated and should be reset back to initial state

@@ -9,8 +9,11 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import ru.fordexsys.solomatintest.data.model.Photo;
+import ru.fordexsys.solomatintest.data.model.PhotosResponse;
 import rx.Observable;
 
 //import com.facebook.stetho.okhttp3.StethoInterceptor;
@@ -20,11 +23,14 @@ public interface VKApi {
 
     String ENDPOINT = "https://api.vk.com/method/";
 
-    @POST("photos.getAll")
-    Observable<List<Photo>> photos(@Body PhotosRequest ridesRequest);
+    @GET("photos.getAll")
+    Observable<PhotosResponse> photos(@Query("access_token") String token,
+                                      @Query("extended") int extended,
+                                      @Query("offset") int offset,
+                                      @Query("count") int count);
 
     /********
-     * Factory class that sets up a new ribot services
+     * Factory class that sets up a new VK API
      *******/
     class Factory {
 

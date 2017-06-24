@@ -5,7 +5,8 @@ import android.support.annotation.Nullable;
 
 import ru.fordexsys.solomatintest.data.local.LocalDataSource;
 import ru.fordexsys.solomatintest.data.local.PreferencesHelper;
-import ru.fordexsys.solomatintest.data.model.Ride;
+import ru.fordexsys.solomatintest.data.model.Photo;
+import ru.fordexsys.solomatintest.data.model.PhotosResponse;
 import ru.fordexsys.solomatintest.data.remote.VKApi;
 
 import java.util.List;
@@ -56,55 +57,62 @@ public class DataManager {
         INSTANCE = null;
     }
 
-    public Observable<List<Ride>> getPhotos(boolean remote) {
+    public Observable<List<Photo>> getPhotos(boolean remote, int offset, int count) {
 
         if (remote) {
             String token = preferencesHelper.getToken();
             return remoteDataSource
-                    .getPhotos(new VKApi().PhotosRequest(token))
-                    .doOnNext(new Action1<List<Ride>>() {
+                    .photos(token, 1, offset, count)
+                    .doOnNext(new Action1<PhotosResponse>() {
                         @Override
-                        public void call(List<Ride> rideList) {
-                            localDataSource.savePhotos(rideList, preferencesHelper.getCurrentUserId());
-                            saveLastBoundsToPrefs(center, distance, zoom);
+                        public void call(PhotosResponse photosResponse) {
+                            localDataSource.savePhotos(photosResponse.getPhotosItems().getPhotoList());
                         }
                     })
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<Ride>>>() {
+                    .map(new Func1<PhotosResponse, List<Photo>>() {
                         @Override
-                        public Observable<? extends List<Ride>> call(Throwable e) {
+                        public List<Photo> call(PhotosResponse response) {
+                            return response.getPhotosItems().getPhotoList();
+                        }
+                    })
+                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<Photo>>>() {
+                        @Override
+                        public Observable<? extends List<Photo>> call(Throwable e) {
                             e.printStackTrace();
-                            return localDataSource.getRides();
+                            return localDataSource.getPhotos();
                         }
                     });
         } else {
-            return localDataSource.getRides();
+            return localDataSource.getPhotos();
         }
     }
 
-    public Observable<List<Ride>> getMorePhotos(boolean remote, int page) {
+    public Observable<List<Photo>> getMorePhotos(boolean remote, int offset, int count) {
         if (remote) {
             String token = preferencesHelper.getToken();
             return remoteDataSource
-                    .myRides(new VKApi.MyRidesRequest(token, page, 20))
-                    .doOnNext(new Action1<List<Ride>>() {
+                    .photos(token, 1, offset, count)
+                    .doOnNext(new Action1<PhotosResponse>() {
                         @Override
-                        public void call(List<Ride> rideList) {
-                            localDataSource.saveRides(rideList, preferencesHelper.getCurrentUserId());
-                            preferencesHelper.putUpdateMyRides(false);
+                        public void call(PhotosResponse response) {
+                            localDataSource.savePhotos(response.getPhotosItems().getPhotoList());
                         }
                     })
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<Ride>>>() {
+                    .map(new Func1<PhotosResponse, List<Photo>>() {
                         @Override
-                        public Observable<? extends List<Ride>> call(Throwable e) {
+                        public List<Photo> call(PhotosResponse response) {
+                            return response.getPhotosItems().getPhotoList();
+                        }
+                    })
+                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<Photo>>>() {
+                        @Override
+                        public Observable<? extends List<Photo>> call(Throwable e) {
                             e.printStackTrace();
-//                            Log.d(TAG, "onErrorResumeNext: " + (Looper.myLooper() == Looper.getMainLooper()));
-//                            return localDataSource.getMyRides();
                             return Observable.error(e);
                         }
                     });
         } else {
-//            Log.d(TAG, "!remote: " + (Looper.myLooper() == Looper.getMainLooper()));
-            return localDataSource.getMyRides();
+            return localDataSource.getPhotos();
         }
     }
 

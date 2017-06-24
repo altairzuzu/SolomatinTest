@@ -8,4 +8,7 @@ import ru.fordexsys.solomatintest.ui.base.BaseActivity;
 
 public class DetailActivity extends BaseActivity {
 
+    public static final String TAG = "MainActivity";
+    public static final int REQUEST_DETAIL = 200;
+
 }
