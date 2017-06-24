@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <WebView
+        android:id="@+id/web"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </WebView>
+
+    <ProgressBar
+        android:id="@+id/web_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:progressDrawable="@drawable/shape_progressbar"
+        android:visibility="invisible"
+        android:layout_height="6dp" />
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="?actionBarSize"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/selector_transparent_backgroud"
+        android:clickable="true"
+        android:scaleType="center"
+        android:src="@drawable/ic_back" />
+
+    <ImageView
+        android:id="@+id/btn_reload"
+        android:layout_width="?actionBarSize"
+        android:layout_height="?actionBarSize"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/selector_transparent_backgroud"
+        android:clickable="true"
+        android:scaleType="center"
+        android:src="@drawable/ic_refresh" />
+
+</RelativeLayout>

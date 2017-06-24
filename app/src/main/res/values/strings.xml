@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SolomatinTest</string>
+    <string name="press_more">Нажмите еще раз для выхода</string>
+    <string name="enter">Вход</string>
+    <string name="error_login">Ошибка входа</string>
+    <string name="enter_done">Выполнен вход</string>
+    <string name="error_connection">Ошибка соединения</string>
+    <string name="error_no_such_element">Нет такого элемента</string>
+    <string name="empty_photos">Список фотографий пуст</string>
+
+
+</resources>

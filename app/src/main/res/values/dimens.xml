@@ -1,0 +1,42 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="padding_2">2dp</dimen>
+    <dimen name="padding_3">3dp</dimen>
+    <dimen name="padding_5">5dp</dimen>
+    <dimen name="padding_6">6dp</dimen>
+    <dimen name="padding_8">8dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
+    <dimen name="padding_14">14dp</dimen>
+    <dimen name="padding_16">16dp</dimen>
+    <dimen name="padding_20">20dp</dimen>
+    <dimen name="padding_28">28dp</dimen>
+    <dimen name="padding_36">36dp</dimen>
+    <dimen name="padding_48">48dp</dimen>
+    <dimen name="padding_64">64dp</dimen>
+    <dimen name="padding_72">72dp</dimen>
+
+
+    <dimen name="button_height">36dp</dimen>
+
+    <dimen name="profile_image_size">80dp</dimen>
+    <dimen name="profile_header_height">200dp</dimen>
+
+    <dimen name="recycler_item_size">92dp</dimen>
+    <!--<dimen name="recycler_item_size">92dp</dimen>-->
+    <dimen name="recycler_ava_size">60dp</dimen>
+    <dimen name="height_minus_ava">40dp</dimen>
+
+    <dimen name="recycler_userlist_item_size">72dp</dimen>
+    <dimen name="recycler_userlist_ava_size">40dp</dimen>
+
+    <dimen name="checkin_button_width">56dp</dimen>
+    <dimen name="checkin_button_height">44dp</dimen>
+    <dimen name="myprofile_background_height">200dp</dimen>
+
+    <dimen name="intro_background_width">500dp</dimen>
+
+
+</resources>
