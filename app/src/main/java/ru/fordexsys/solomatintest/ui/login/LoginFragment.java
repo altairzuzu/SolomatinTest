@@ -30,9 +30,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
-//        Bundle args = new Bundle();
-//        args.putInt("someInt", someInt);
-//        fragment.setArguments(args);
         return fragment;
     }
 

@@ -55,9 +55,6 @@ public class WebFragment extends Fragment implements View.OnClickListener {
 
     public static WebFragment newInstance() {
         WebFragment fragment = new WebFragment();
-//        Bundle args = new Bundle();
-//        args.putInt("someInt", someInt);
-//        fragment.setArguments(args);
         return fragment;
     }
 

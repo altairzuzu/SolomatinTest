@@ -63,8 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:maxLines="3"
+            android:gravity="center_horizontal"
             android:ellipsize="end"
-            android:text="Afgdfg dfg dfg dfgsdfsd fsd fsdfsdf sdf sdfsdfsdf sdfsdfsdf sdf sdf sdf sdf sdf sdf sdfsdfsdfsdf"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             android:textColor="@color/white" />
     </LinearLayout>

@@ -16,7 +16,7 @@ public interface ActivityComponent {
 
     void inject(LoginFragment loginFragment);
     void inject(WebFragment webFragment);
-//
+
     void inject(LoginActivity mainActivity);
     void inject(MainActivity mainActivity);
     void inject(DetailActivity mainActivity);

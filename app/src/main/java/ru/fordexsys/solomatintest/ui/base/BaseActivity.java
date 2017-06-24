@@ -7,7 +7,6 @@ import ru.fordexsys.solomatintest.injection.component.ActivityComponent;
 import ru.fordexsys.solomatintest.injection.component.DaggerActivityComponent;
 import ru.fordexsys.solomatintest.injection.module.ActivityModule;
 
-
 public class BaseActivity extends AppCompatActivity {
 
     private ActivityComponent mActivityComponent;

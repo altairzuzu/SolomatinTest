@@ -30,8 +30,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private static final String TAG = "LoginActivity";
 
-    private String currentFrag;
-
     @Inject
     DataManager dataManager;
 
@@ -49,32 +47,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             closeActivity();
         }
 
-//        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-//            @Override
-//            public void onBackStackChanged() {
-//                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
-//                if (fragment instanceof LoginFragment) {
-////                    toolbarTitle.setText(R.string.authorization);
-//                    btnBack.setVisibility(View.GONE);
-//                    btnReload.setVisibility(View.GONE);
-//                } else if (fragment instanceof WebFragment) {
-//                    btnBack.setVisibility(View.VISIBLE);
-//                    btnReload.setVisibility(View.VISIBLE);
-////                    toolbarTitle.setText(R.string.register);
-//                }
-//            }
-//        });
-//
-//        btnBack.setOnClickListener(this);
-
         changeFragment(LoginFragment.TAG);
     }
-
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//
-//    }
 
     @Override
     public void onClick(View view) {
@@ -92,22 +66,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     void changeFragment(@NonNull String fragTag) {
-        currentFrag = fragTag;
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragment = null;
-//        Bundle args = new Bundle();
+
         switch (fragTag) {
             case LoginFragment.TAG:
                 fragment = LoginFragment.newInstance();
-//                args = new Bundle();
-//                if (category != null) {
-//                    fragment.setArguments(args);
-//                }
-//                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 break;
             case WebFragment.TAG:
                 fragment = WebFragment.newInstance();
-//                ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 ft.addToBackStack(null);
                 break;
         }

@@ -5,7 +5,6 @@ import java.util.List;
 import ru.fordexsys.solomatintest.data.DataManager;
 import ru.fordexsys.solomatintest.data.model.Photo;
 import ru.fordexsys.solomatintest.ui.base.Presenter;
-import ru.fordexsys.solomatintest.util.NetworkUtil;
 
 import javax.inject.Inject;
 

@@ -30,15 +30,11 @@ public interface VKApi {
                                       @Query("count") int count,
                                       @Query("v") double v);
 
-    /********
-     * Factory class that sets up a new VK API
-     *******/
     class Factory {
 
         public static VKApi makeBikeWithMeService(Context context) {
 
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
-//                    .addNetworkInterceptor(new StethoInterceptor())
                     .build();
 
             Retrofit retrofit = new Retrofit.Builder()
@@ -51,15 +47,5 @@ public interface VKApi {
         }
 
     }
-
-    class PhotosRequest {
-        private String token;
-
-        public PhotosRequest(String token, int offset, int count) {
-            this.token = token;
-        }
-    }
-
-
 
 }

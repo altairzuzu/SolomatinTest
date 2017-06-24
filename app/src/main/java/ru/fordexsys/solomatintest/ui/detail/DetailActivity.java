@@ -3,19 +3,12 @@ package ru.fordexsys.solomatintest.ui.detail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,10 +54,15 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
         if (intent != null) {
             currentId = intent.getLongExtra("id", 0L);
             photoList = intent.getParcelableArrayListExtra("photos");
+
+            if (currentId != 0L && photoList != null && photoList.size() != 0) {
+                for (int i = 0; i < photoList.size(); i++) {
+                    if (currentId == photoList.get(i).getId()) {
+                        position = i;
+                    }
+                }
+            }
         }
-//        if (currentId != 0) {
-//            presenter.getPhotos(false, 0, 0);
-//        }
 
         if (savedInstanceState != null) {
             photoList = savedInstanceState.getParcelableArrayList("photos");
@@ -73,11 +71,6 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
 
         pageAdapter = new DetailPageAdapter(getSupportFragmentManager(), photoList);
 
-        for (int i = 0; i < photoList.size(); i++) {
-            if (currentId == photoList.get(i).getId()) {
-                position = i;
-            }
-        }
 
         viewPager.setAdapter(pageAdapter);
         viewPager.setCurrentItem(position);
@@ -88,7 +81,7 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
 
             @Override
             public void onPageSelected(int position) {
-                if (position == photoList.size() - 3) {
+                if (position == photoList.size() - 2) {
                     presenter.getPhotos(true, photoList.size(), 40);
                 }
             }
@@ -108,19 +101,19 @@ public class DetailActivity extends BaseActivity implements DetailMvpView {
 
     @Override
     public void onGetPhotosError() {
-
+        Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onGetMorePhotosSuccess(List<Photo> photoList) {
-        photoList.addAll(photoList);
+    public void onGetMorePhotosSuccess(List<Photo> photosToAdd) {
+        photoList.addAll(photosToAdd);
         pageAdapter.setPhotoList(photoList);
         pageAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onGetMorePhotosError() {
-
+        Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
     }
 
     @Override

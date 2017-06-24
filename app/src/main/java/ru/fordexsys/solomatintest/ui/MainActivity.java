@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -28,14 +26,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.fordexsys.solomatintest.ui.detail.DetailActivity;
 import ru.fordexsys.solomatintest.util.EndlessRecyclerViewScrollListener;
-import ru.fordexsys.solomatintest.util.NetworkUtil;
 import ru.fordexsys.solomatintest.util.WrapContentLinearLayoutManager;
 
 /**
  * Created by Altair on 29-Oct-16.
  */
 
-public class MainActivity extends BaseActivity implements MainMvpView, View.OnClickListener {
+public class MainActivity extends BaseActivity implements MainMvpView {
 
     private static final String TAG = "MainActivity";
 
@@ -79,14 +76,12 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
             Snackbar.make(mainCoordinator, getString(R.string.enter_done), Snackbar.LENGTH_SHORT).show();
         }
 
-        //todo
-        presenter.getPhotos(true, 0, 20);
+        presenter.getPhotos(true, 0, 40);
 
-        //todo
         pageSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getPhotos(true, 0, 20);
+                presenter.getPhotos(true, 0, 40);
             }
         });
 
@@ -122,19 +117,11 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 loadProgress.setVisibility(View.VISIBLE);
-                //todo
-                presenter.getPhotos(true, page * 20, 20);
+                presenter.getPhotos(true, page * 40, 40);
             }
         };
         recyclerView.addOnScrollListener(onScrollListener);
 
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-
-        }
     }
 
     boolean doubleBackToExitPressedOnce = false;

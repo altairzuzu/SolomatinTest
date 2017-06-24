@@ -27,6 +27,5 @@ public interface ApplicationComponent {
     VKApi bikeWithMeApi();
     LocalDataSource localDataSource();
     PreferencesHelper preferencesHelper();
-//    DatabaseHelper databaseHelper();
     DataManager dataManager();
 }
