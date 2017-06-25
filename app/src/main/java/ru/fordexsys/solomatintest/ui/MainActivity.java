@@ -108,7 +108,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         photosRecyclerAdapter = new PhotosRecyclerAdapter(photosList, listener);
 
         recyclerView.setHasFixedSize(true);
-        WrapContentLinearLayoutManager wrapContentLinearLayoutManager = new WrapContentLinearLayoutManager(this,2);
+        WrapContentLinearLayoutManager wrapContentLinearLayoutManager = new WrapContentLinearLayoutManager(this, 3);
 
         recyclerView.setLayoutManager(wrapContentLinearLayoutManager);
         recyclerView.setAdapter(photosRecyclerAdapter);

@@ -60,15 +60,14 @@ public class LocalDataSource {
             public List<Photo> call() throws Exception {
                 Realm realm = Realm.getDefaultInstance();
                 RealmResults<Photo> realmResults = realm.where(Photo.class).findAll();
-//                int size = realmResults.size();
-//                List<Ride> rideList;
-//                if (size > 20) {
-//                    rideList = realm.copyFromRealm(realmResults, 1).subList(0, 20);
-//                } else {
-                List<Photo> rideList = realm.copyFromRealm(realmResults);
-//                }
+                List<Photo> photoList;
+                if (realmResults.size() > 40) {
+                    photoList = realm.copyFromRealm(realmResults, 1).subList(0, 40);
+                } else {
+                    photoList = realm.copyFromRealm(realmResults);
+                }
                 realm.close();
-                return rideList;
+                return photoList;
             }
         });
     }

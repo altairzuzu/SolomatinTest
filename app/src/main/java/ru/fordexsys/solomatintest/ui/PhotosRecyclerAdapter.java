@@ -58,7 +58,7 @@ public class PhotosRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         Picasso.with(holder.recyclerImage.getContext())
                 .load(url)
-                .resize(300,300)
+                .resize(400,400)
                 .centerCrop()
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)

@@ -81,8 +81,10 @@ public class DataManager {
                     photo.setPhotoBig(photo.getPhoto_2560());
                 } else if (!TextUtils.isEmpty(photo.getPhoto_1280())){
                     photo.setPhotoBig(photo.getPhoto_1280());
-                } else {
+                } else if (!TextUtils.isEmpty(photo.getPhoto_807())){
                     photo.setPhotoBig(photo.getPhoto_807());
+                } else {
+                    photo.setPhotoBig(photo.getPhoto_604());
                 }
                 if (photo.getLikes() != null) {
                     photo.setLikesCount(photo.getLikes().getCount());
